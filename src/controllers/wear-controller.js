@@ -8,7 +8,7 @@ const svcc = new CommonService();
 
 router.post('', async (req, res) => {
     let respuesta;
-    const returnArray = await svcw.getFilterAsync(req.body.generos,req.body.precios);
+    const returnArray = await svcw.getFilterAsync(req.body.generos,req.body.precios,req.body.colores,req.body.prendas);
     if (returnArray != null){
         respuesta = res.status(200).json(returnArray);
     }

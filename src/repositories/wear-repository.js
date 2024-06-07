@@ -2,12 +2,12 @@ import config from "../configs/db-config.js";
 import sql from "mssql";
 
 export default class WearRepository{
-    getAllSync = async (sqlquery) => {
+    getFilterAsync = async (sqlquery) => {
         let pool = await sql.connect(config);
         let result = await pool.request().query(`SELECT * FROM Posts
         left join Wears on Posts.idWear = Wears.id 
         where ${sqlquery}`);
-        console.log(result.recordset.length);
+        console.log(result.recordset);
         return result.recordset;
     }
     getByIdAsync = async (table_name, id) => {

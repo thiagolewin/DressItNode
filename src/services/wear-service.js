@@ -7,12 +7,12 @@ export default class WearService{
             if(generos.length > 1){
                 sqlquery += '('
                 for(let i = 0; i<generos.length; i++){
-                    sqlquery += `Wears.wearType = ${generos[i]} OR `
+                    sqlquery += `Wears.idGender = ${generos[i]} OR `
                 }
                 sqlquery = sqlquery.substring(0,((sqlquery.length)-4))
                 sqlquery += ')'
             }else{
-                sqlquery += `Wears.wearType = ${generos[0]} `
+                sqlquery += `Wears.idGender = ${generos[0]} `
             }
         }
         
@@ -30,19 +30,33 @@ export default class WearService{
             if(colores.length > 1){
                 sqlquery += '('
                 for(let i = 0; i<colores.length; i++){
-                    sqlquery += `Wear.idColor = ${colores[i]} OR `
+                    sqlquery += `Wears.idColor = ${colores[i]} OR `
                 }
                 sqlquery = sqlquery.substring(0,((sqlquery.length)-4))
                 sqlquery += ')'
             }else{
-                sqlquery += `Wear.idColor = ${colores[0]}`
+                sqlquery += `Wears.idColor = ${colores[0]}`
             }
-            
-            sqlquery += `(Posts.price > ${precios[0]} AND Posts.price < ${precios[1]})` 
+        }
+
+        if(prendas != undefined && prendas.length > 0){
+            if(sqlquery != ''){
+                sqlquery += ` AND `
+            }
+            if(prendas.length > 1){
+                sqlquery += '('
+                for(let i = 0; i<prendas.length; i++){
+                    sqlquery += `Wears.wearType = ${prendas[i]} OR `
+                }
+                sqlquery = sqlquery.substring(0,((sqlquery.length)-4))
+                sqlquery += ')'
+            }else{
+                sqlquery += `Wears.wearType = ${prendas[0]} `
+            }
         }
         console.log(sqlquery)
-        const repo = new CommonRepository();
-        let returnArray = await repo.getAllSync(table_name);
+        const repo = new WearRepository();
+        let returnArray = await repo.getFilterAsync(sqlquery);
         return returnArray;
     }
     getByIdAsync = async (table_name, id) => {

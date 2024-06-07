@@ -1,14 +1,14 @@
 import {Router} from 'express';
-import WearService from './../services/user-service.js';
+import WearService from './../services/wear-service.js';
 import CommonService from './../services/common-service.js';
 import Wear from '../entities/user.js'
 const router = Router();
 const svcw = new WearService();
 const svcc = new CommonService();
 
-router.get('', async (req, res) => {
+router.post('', async (req, res) => {
     let respuesta;
-    const returnArray = await svcc.getAllSync("Wears");
+    const returnArray = await svcw.getFilterAsync(req.body.generos,req.body.precios);
     if (returnArray != null){
         respuesta = res.status(200).json(returnArray);
     }

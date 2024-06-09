@@ -1,7 +1,7 @@
 import WearRepository from "../repositories/wear-repository.js";
 
 export default class WearService{
-    getFilterAsync = async (generos,precios,colores,prendas) => {
+    getFilterAsync = async (generos,precios,colores,prendas,offset,limit) => {
         let sqlquery = ''
         if(generos != undefined && generos.length > 0){
             if(generos.length > 1){
@@ -56,7 +56,7 @@ export default class WearService{
         }
         console.log(sqlquery)
         const repo = new WearRepository();
-        let returnArray = await repo.getFilterAsync(sqlquery);
+        let returnArray = await repo.getFilterAsync(sqlquery,offset,limit);
         return returnArray;
     }
     getByIdAsync = async (table_name, id) => {

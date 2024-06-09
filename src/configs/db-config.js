@@ -1,12 +1,13 @@
+
 const config = {
-    user        : "Dressit", // Database username
-    password    : "Dressit", // Database password
-    server      : "localhost", // Server IP address
-    database    : "Dressit", // Database name
-    options : {
-        trustServerCertificate : true,
-        trustedConnection : true
-   }
+    server: "DESKTOP-P1E5B3N\SQLEXPRESS",
+    database :"DressIt",
+    driver: "msnodesqlv8",
+    user: "DressIt",
+    password: "DressIt",
+    options: {
+        trustedConnection: true
+    }
 }
 
 export default config;

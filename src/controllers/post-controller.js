@@ -41,4 +41,16 @@ router.post('', async (req, res) => {
     }
 })
 
+router.get('/search/:buscado', async (req, res) => {
+    let respuesta;
+    const returnArray = await svcw.getSearchAsync(req.params.buscado);
+    if (returnArray != null){
+        respuesta = res.status(200).json(returnArray);
+    }
+    else {
+        respuesta = res.status(500).send('Error interno.');
+    }
+    return respuesta;
+});svcc
+
 export default router;

@@ -1,5 +1,5 @@
 const config = {
-    user        : "sa", // Database username
+    user        : "DressIt", // Database username
     password    : "DressIt", // Database password
     server      : "localhost", // Server IP address
     database    : "DressIt", 

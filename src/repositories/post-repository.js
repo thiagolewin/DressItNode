@@ -82,4 +82,9 @@ export default class WearRepository {
             .query(`SELECT * FROM ${table_name} WHERE id = @pid`);
         return result.recordset;
     }
+    getSearchAsync = async (buscado) => {
+        let pool = await poolPromise;
+        let result = await pool.request().query(`select * from Posts where description like '%${buscado}%'`);
+        return result.recordset;
+    }
 }

@@ -24,4 +24,10 @@ export default class WearService {
         let returnArray = await repo.getByIdAsync(table_name, id);
         return returnArray;
     }
+
+    getSearchAsync = async (buscado) => {
+        const repo = new PostRepository();
+        let returnArray = await repo.getSearchAsync(buscado);
+        return returnArray;
+    }
 }

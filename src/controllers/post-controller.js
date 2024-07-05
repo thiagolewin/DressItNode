@@ -20,7 +20,7 @@ router.get('', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     let respuesta;
-    const returnArray = await svcc.getByIdAsync("Wears",req.params.id);
+    const returnArray = await svcc.getByIdAsync("Posts",req.params.id);
     if (returnArray != null){
         respuesta = res.status(200).json(returnArray);
     }

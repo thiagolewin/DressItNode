@@ -19,7 +19,7 @@ export default class WearRepository {
                 sqlquery = sqlquery.slice(0, -4);
                 sqlquery += ')';
             } else {
-                sqlquery += ` AND Wears.idGender = @genero0 `;
+                sqlquery += ` AND Posts.idGender = @genero0 `;
                 request.input('genero0', sql.Int, generos[0]);
             }
         }
@@ -84,7 +84,8 @@ export default class WearRepository {
     }
     getSearchAsync = async (buscado) => {
         let pool = await poolPromise;
-        let result = await pool.request().query(`select * from Posts where description like '%${buscado}%'`);
+        let result = await pool.request().query(`select * from Posts where name like '%${buscado}%' OR description like '%${buscado}%'`);
+
         return result.recordset;
     }
 }

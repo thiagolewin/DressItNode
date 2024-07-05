@@ -9,11 +9,16 @@ export default class CommonRepository{
         return result.recordset;
     }
     getByIdAsync = async (table_name, id) => {
-        let pool = await sql.connect(config);
-        let result = await pool.request()
-        .input('pid', sql.Int, id)
-        .query(`SELECT * FROM ${table_name} WHERE id = @pid `);
-        console.log(result.recordset.length);
-        return result.recordset;
+        if(!isNaN(id)){
+            let pool = await sql.connect(config);
+            let result = await pool.request()
+            .input('pid', sql.Int, id)
+            .query(`SELECT * FROM ${table_name} WHERE id = @pid `);
+            console.log(result.recordset.length);
+            return result.recordset;
+        }else{
+            return {}
+        }
+        
     }
 }

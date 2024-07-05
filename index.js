@@ -3,6 +3,7 @@ import cors from "cors";
 import UserRouter from "./src/controllers/user-controller.js"
 import WearRouter from "./src/controllers/post-controller.js"
 import wearScraping from "./src/controllers/scraping-controller.js"
+import MarcaRouter from './src/controllers/marca-controller.js'
 const app = express();
 const port = 3000;
 
@@ -12,6 +13,8 @@ app.use(express.json());
 app.use("/api/users", UserRouter);
 app.use("/api/wear", WearRouter);
 app.use("/api/scraping",wearScraping)
+app.use("/api/brand", MarcaRouter);
+
 app.listen(port, () => {
     console.log("Listening on port 3000");
 });

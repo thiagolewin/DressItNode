@@ -88,4 +88,11 @@ export default class WearRepository {
 
         return result.recordset;
     }
+
+    getPostByBrand = async (id) => {
+        let pool = await poolPromise;
+        let result = await pool.request().query(`select * from Posts where idBrand = ${id}`);
+
+        return result.recordset;
+    }
 }

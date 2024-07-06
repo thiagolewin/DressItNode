@@ -1,14 +1,13 @@
 const config = {
     user        : "DressIt", // Database username
-    password    : "DressIt", // Database password
-    server      : "localhost", // Server IP address
+    password    : "Q6Cmk74sn&D'7+M=", // Database password
+    server      : "34.45.5.76", // Server IP address
     database    : "DressIt", 
     port        : 1433,
-    options : {
-        trustServerCertificate : true,
-        trustedConnection : true,
-        encrypt:true
-   }
+    options: {
+        encrypt: false,
+        trustServerCertificate: true,
+        }
 }
 
 export default config;

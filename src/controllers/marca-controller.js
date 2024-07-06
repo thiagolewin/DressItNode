@@ -6,7 +6,7 @@ const svcc = new CommonService();
 
 router.get('', async (req, res) => {
     let respuesta;
-    const returnArray = await svcc.getAllSync('Brands');
+    const returnArray = await svcc.getAllSync('Users');
     if (returnArray != null){
         respuesta = res.status(200).json(returnArray);
     }

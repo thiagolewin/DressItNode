@@ -6,7 +6,7 @@ import wearScraping from "./src/controllers/scraping-controller.js"
 import MarcaRouter from './src/controllers/marca-controller.js'
 import imageController from './src/controllers/image-controller.js'
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());

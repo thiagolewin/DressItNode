@@ -5,7 +5,7 @@ const config = {
     database    : "DressIt", 
     port        : 1433,
     options: {
-        encrypt: false,
+        encrypt: true,
         trustServerCertificate: true,
         }
 }

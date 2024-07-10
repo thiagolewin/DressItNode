@@ -36,11 +36,11 @@ router.post("/post", fileUpload, async  (req, res) => {
         // Verificar si la respuesta fue exitosa (código 200)
         if (response.ok) {
             // Obtener el contenido de la respuesta en formato JSON
-            const imageBuffer = await response.buffer();
-
-            // Establecer el tipo de contenido de la respuesta como imagen
+            const arrayBuffer = await response.arrayBuffer();
+            const buffer = Buffer.from(arrayBuffer);
             res.set('Content-Type', 'image/png');
-            res.send(imageBuffer);
+            res.send(buffer);
+
         } else {
             // Si la respuesta no es exitosa, manejar el error
             throw new Error(`Fetch failed with status ${response.status}`);

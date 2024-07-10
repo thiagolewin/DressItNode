@@ -24,11 +24,16 @@ const fileUpload = multer({
 
 const svc = new ImageService();
 
-router.post("/post", fileUpload, (req, res) => {
+router.post("/post", fileUpload, async  (req, res) => {
     const garmentUrl = req.body.garment_url;
     const savedFilePath = req.files['background_url'][0].path
-    let resultado = fetch(`http://http://34.16.216.43:8000/?background_url=${savedFilePath}&garment_url=${garmentUrl}`)
-    res.status(200).json({ message: 'Upload successful', files: req.files, garmentUrl });
+    console.log(savedFilePath)
+    const response = await fetch(`http://34.16.216.43:8000/?background_url=${savedFilePath}&garment_url=${garmentUrl}`);
+    const data = await response.json();
+    res.status(200).json({
+        message:"Hola",
+        fetchResponse : data
+    })
 });
 
 export default router;

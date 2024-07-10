@@ -21,7 +21,7 @@ const validateImageMiddleware = (req, res, next) => {
     if (!allowedMimes.includes(backgroundFile.mimetype)) {
         return res.status(400).json({ error: 'El archivo de fondo no es una imagen válida' });
     }
-
+    console.log("PASO")
     // Si pasa la validación, continuar con el siguiente middleware
     next();
 };
@@ -39,7 +39,7 @@ router.post("/post", validateImageMiddleware,fileUpload, async  (req, res) => {
         const garmentUrl = req.body.garment_url;
         const backgroundFile = req.files['background_url'][0];
         const backgroundFileName = backgroundFile.filename;
-        // Realizar la petición fetch y esperar la respuesta
+        console.log(backgroundFileName)
         const response = await fetch(`http://34.16.216.43:8000/?background_url=https://dressitnode-uq2eh73iia-uc.a.run.app/images/${backgroundFileName}&garment_url=${garmentUrl}`)
 
         if (response.ok) {

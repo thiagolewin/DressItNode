@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 const router = Router();
 const diskStorage = multer.diskStorage({
-    destination: path.join(__dirname, '../images'),
+    destination: path.join(__dirname, '../../public/images'),
     filename: (req, file, cb) => {
         cb(null, Date.now() + "-" + file.originalname);
     }
@@ -25,10 +25,29 @@ const fileUpload = multer({
 const svc = new ImageService();
 
 router.post("/post", fileUpload, async  (req, res) => {
-    const garmentUrl = req.body.garment_url;
-    const savedFilePath = req.files['background_url'][0].path
-    console.log(savedFilePath)
-    res.status(200).json({ message: savedFilePath});
+    try {
+        const garmentUrl = req.body.garment_url;
+        const backgroundFile = req.files['background_url'][0];
+        const backgroundFileName = backgroundFile.filename;
+        // Realizar la petición fetch y esperar la respuesta
+        const response = await fetch(`http://34.16.216.43:8000/?background_url=https://dressitnode-uq2eh73iia-uc.a.run.app/images/${backgroundFileName}&garment_url=${garmentUrl}`);
+
+        // Verificar si la respuesta fue exitosa (código 200)
+        if (response.ok) {
+            // Obtener el contenido de la respuesta en formato JSON
+            const data = await response.json();
+
+            // Devolver los datos obtenidos en la respuesta
+            res.status(200).json({ message: 'Fetch successful', data });
+        } else {
+            // Si la respuesta no es exitosa, manejar el error
+            throw new Error(`Fetch failed with status ${response.status}`);
+        }
+    } catch (error) {
+        // Capturar cualquier error y devolver un mensaje de error al cliente
+        console.error('Error in fetch:', error.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
 export default router;

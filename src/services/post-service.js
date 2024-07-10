@@ -2,7 +2,6 @@ import PostRepository from "../repositories/post-repository.js";
 
 export default class WearService {
     getFilterAsync = async (generos, precios, colores, prendas, offset, limit) => {
-        console.log(offset)
         offset = offset || 0;
         limit = limit || 30;
         let filters = {

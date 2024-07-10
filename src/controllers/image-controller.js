@@ -14,7 +14,17 @@ const diskStorage = multer.diskStorage({
         cb(null, Date.now() + "-" + file.originalname);
     }
 });
+const validateImageMiddleware = (req, res, next) => {
+    const backgroundFile = req.files['background_url'][0];
+    const allowedMimes = ['image/jpeg', 'image/png', 'image/gif']; // Definir tipos MIME permitidos para imágenes
+    
+    if (!allowedMimes.includes(backgroundFile.mimetype)) {
+        return res.status(400).json({ error: 'El archivo de fondo no es una imagen válida' });
+    }
 
+    // Si pasa la validación, continuar con el siguiente middleware
+    next();
+};
 const fileUpload = multer({
     storage: diskStorage
 }).fields([
@@ -24,25 +34,20 @@ const fileUpload = multer({
 
 const svc = new ImageService();
 
-router.post("/post", fileUpload, async  (req, res) => {
+router.post("/post", validateImageMiddleware,fileUpload, async  (req, res) => {
     try {
         const garmentUrl = req.body.garment_url;
         const backgroundFile = req.files['background_url'][0];
         const backgroundFileName = backgroundFile.filename;
-        console.log(backgroundFileName)
         // Realizar la petición fetch y esperar la respuesta
-        const response = await fetch(`http://34.16.216.43:8000/?background_url=https://dressitnode-uq2eh73iia-uc.a.run.app/images/${backgroundFileName}&garment_url=${garmentUrl}`);
+        const response = await fetch(`http://34.16.216.43:8000/?background_url=https://dressitnode-uq2eh73iia-uc.a.run.app/images/${backgroundFileName}&garment_url=${garmentUrl}`)
 
-        // Verificar si la respuesta fue exitosa (código 200)
         if (response.ok) {
-            // Obtener el contenido de la respuesta en formato JSON
-            const arrayBuffer = await response.arrayBuffer();
-            const buffer = Buffer.from(arrayBuffer);
-            res.set('Content-Type', 'image/png');
-            res.send(buffer);
-
+            const contentType = response.headers.get('content-type');
+            res.setHeader('Content-Type', contentType);
+            const buffer = await response.arrayBuffer();
+            res.end(Buffer.from(buffer));
         } else {
-            // Si la respuesta no es exitosa, manejar el error
             throw new Error(`Fetch failed with status ${response.status}`);
         }
     } catch (error) {

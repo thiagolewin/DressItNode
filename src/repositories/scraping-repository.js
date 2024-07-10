@@ -41,7 +41,6 @@ export default class ScrapingRepository {
             await transaction.commit();
             returnArray = result;
         } catch (error) {
-            console.log(error);
             if (transaction) {
                 await transaction.rollback();
             }

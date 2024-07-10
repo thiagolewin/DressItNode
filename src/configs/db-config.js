@@ -4,7 +4,6 @@ const config = {
     server      : "10.1.0.7", // Server IP address
     database    : "DressIt", 
     port        : 1433,
-    port        : 1433,
     options: {
         encrypt: false,
         trustServerCertificate: true,

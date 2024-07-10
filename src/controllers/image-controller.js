@@ -29,16 +29,18 @@ router.post("/post", fileUpload, async  (req, res) => {
         const garmentUrl = req.body.garment_url;
         const backgroundFile = req.files['background_url'][0];
         const backgroundFileName = backgroundFile.filename;
+        console.log(backgroundFileName)
         // Realizar la petición fetch y esperar la respuesta
         const response = await fetch(`http://34.16.216.43:8000/?background_url=https://dressitnode-uq2eh73iia-uc.a.run.app/images/${backgroundFileName}&garment_url=${garmentUrl}`);
 
         // Verificar si la respuesta fue exitosa (código 200)
         if (response.ok) {
             // Obtener el contenido de la respuesta en formato JSON
-            const data = await response.json();
+            const imageBuffer = await response.buffer();
 
-            // Devolver los datos obtenidos en la respuesta
-            res.status(200).json({ message: 'Fetch successful', data });
+            // Establecer el tipo de contenido de la respuesta como imagen
+            res.set('Content-Type', 'image/png');
+            res.send(imageBuffer);
         } else {
             // Si la respuesta no es exitosa, manejar el error
             throw new Error(`Fetch failed with status ${response.status}`);

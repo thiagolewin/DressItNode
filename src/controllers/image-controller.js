@@ -28,12 +28,7 @@ router.post("/post", fileUpload, async  (req, res) => {
     const garmentUrl = req.body.garment_url;
     const savedFilePath = req.files['background_url'][0].path
     console.log(savedFilePath)
-    const response = await fetch(`http://34.16.216.43:8000/?background_url=${savedFilePath}&garment_url=${garmentUrl}`);
-    const data = await response.json();
-    res.status(200).json({
-        message:"Hola",
-        fetchResponse : data
-    })
+    res.status(200).json({ message: savedFilePath, backgroundUrl, garmentUrl });
 });
 
 export default router;

@@ -58,7 +58,7 @@ router.post("/post", fileUpload, async (req, res) => {
         const backgroundFileName = backgroundFile.filename;
 
         // Lógica para procesar la imagen, por ejemplo, enviarla a otro servicio
-        const response = await fetch(`http://34.16.216.43:8000/?background_url=https://example.com/images/${backgroundFileName}&garment_url=${garmentUrl}`);
+        const response = await fetch(`http://34.16.216.43:8000/?background_url=https://dressitnode-uq2eh73iia-uc.a.run.app/images/${backgroundFileName}&garment_url=${garmentUrl}`);
 
         if (response.ok) {
             const contentType = response.headers.get('content-type');

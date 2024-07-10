@@ -17,34 +17,26 @@ const diskStorage = multer.diskStorage({
     }
 });
 
-// Middleware para validar el tipo y tamaño del archivo
-const validateImageMiddleware = (req, res, next) => {
-    // Verificar si 'background_url' está presente en req.files
-    if (!req.files || !req.files['background_url']) {
-        return res.status(400).json({ error: 'No se ha adjuntado ningún archivo de fondo' });
-    }
-
-    const backgroundFile = req.files['background_url'][0];
-    const allowedMimes = ['image/jpeg', 'image/png', 'image/gif'];
-    const maxFileSize = 20 * 1024 * 1024; // 20 MB en bytes
-
-    // Validar tipo MIME
-    if (!allowedMimes.includes(backgroundFile.mimetype)) {
-        return res.status(400).json({ error: 'El archivo de fondo no es una imagen válida' });
-    }
-
-    // Validar tamaño del archivo
-    if (backgroundFile.size > maxFileSize) {
-        return res.status(400).json({ error: 'El tamaño del archivo de fondo excede el límite permitido de 20 MB' });
-    }
-
-    // Si pasa la validación, continuar con el siguiente middleware
-    next();
-};
-
-// Middleware de Multer para subir archivos
+// Middleware de Multer para subir archivos con validación de tipo y tamaño
 const fileUpload = multer({
-    storage: diskStorage
+    storage: diskStorage,
+    fileFilter: (req, file, cb) => {
+        const allowedMimes = ['image/jpeg', 'image/png', 'image/gif'];
+        const maxFileSize = 20 * 1024 * 1024; // 20 MB en bytes
+
+        // Verificar si el tipo MIME es permitido
+        if (!allowedMimes.includes(file.mimetype)) {
+            return cb(new Error('El archivo de fondo no es una imagen válida'));
+        }
+
+        // Verificar el tamaño del archivo
+        if (file.size > maxFileSize) {
+            return cb(new Error('El tamaño del archivo de fondo excede el límite permitido de 20 MB'));
+        }
+
+        // Si pasa la validación, permitir el almacenamiento
+        cb(null, true);
+    }
 }).fields([
     { name: 'background_url', maxCount: 1 },
     { name: 'garment_url', maxCount: 1 }
@@ -53,9 +45,15 @@ const fileUpload = multer({
 const svc = new ImageService();
 
 // Ruta POST para manejar la carga de imágenes
-router.post("/post", validateImageMiddleware, fileUpload, async (req, res) => {
+router.post("/post", fileUpload, async (req, res) => {
     try {
         const garmentUrl = req.body.garment_url;
+        
+        // Verificar si 'background_url' está presente en req.files
+        if (!req.files || !req.files['background_url']) {
+            return res.status(400).json({ error: 'No se ha adjuntado ningún archivo de fondo' });
+        }
+
         const backgroundFile = req.files['background_url'][0];
         const backgroundFileName = backgroundFile.filename;
 

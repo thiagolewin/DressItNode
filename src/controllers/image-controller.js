@@ -28,7 +28,7 @@ router.post("/post", fileUpload, async  (req, res) => {
     const garmentUrl = req.body.garment_url;
     const savedFilePath = req.files['background_url'][0].path
     console.log(savedFilePath)
-    res.status(200).json({ message: savedFilePath, backgroundUrl, garmentUrl });
+    res.status(200).json({ message: savedFilePath});
 });
 
 export default router;

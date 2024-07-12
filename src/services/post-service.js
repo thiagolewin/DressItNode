@@ -19,7 +19,7 @@ export default class WearService {
     }
 
     getByIdAsync = async (table_name, id) => {
-        const repo = new CommonRepository();
+        const repo = new PostRepository();
         let returnArray = await repo.getByIdAsync(table_name, id);
         return returnArray;
     }

@@ -1,7 +1,7 @@
 const config = {
     user        : "DressIt", // Database username
     password    : "asdjwi298hbn", // Database password
-    server      : "34.132.57.105", // Server IP address
+    server      : "10.1.0.7", // Server IP address
     database    : "DressIt", 
     port        : 1433,
     options: {

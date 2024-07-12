@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import PostService from '../services/post-service.js';
-import CommonService from '../services/common-service.js';
+import CommonService from '../services/marca-service.js';
 import Wear from '../entities/user.js'
 const router = Router();
 const svcw = new PostService();
